@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Anchor from './Anchor';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 interface INavbarProps {
   links: string[];
@@ -13,7 +14,16 @@ const Navbar = (props: INavbarProps) => {
   const anchorElms = links.map((link, index) => {
     return (
       <li className="nav-item">
-        <Anchor key={index} content={link} href={link} />
+        {link === 'Home' && (
+          <Link className="nav-link" to="/">
+            Home
+          </Link>
+        )}
+        {link !== 'Home' && (
+          <Link className="nav-link" to={`/${link.toLowerCase()}`}>
+            {link}
+          </Link>
+        )}
       </li>
     );
   });
@@ -21,7 +31,9 @@ const Navbar = (props: INavbarProps) => {
   return (
     <div>
       <nav className={clName}>
-        <Anchor className="navbar-brand" content="React Playground" href="#" />
+        <Link className="navbar-brand" to="/">
+          React Playground
+        </Link>
         <button
           className="navbar-toggler collapsed"
           type="button"
