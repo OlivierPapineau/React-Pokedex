@@ -19,7 +19,7 @@ const PokemonListPage = () => {
   } | null>(null);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pokPerPage, setPokPerPage] = useState(10);
+  const [pokPerPage, setPokPerPage] = useState(50);
 
   const fetchData = () => {
     setLoading(true);
@@ -43,13 +43,25 @@ const PokemonListPage = () => {
   const currentPokemon: IPokemonListItem[] | false =
     pokedex !== null && pokedex.results.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
+  //Change page
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   console.log(pokedex);
   return (
     <div className="container mt-5">
-      <h2 className="text-primary mb-3">Pokemon</h2>
+      <div className="row">
+        <h2 className="text-primary mb-3 col-sm-2">Pokemon</h2>
+        <Pagination
+          elementsPerPage={pokPerPage}
+          totalElements={pokedex !== null ? pokedex.results.length : 0}
+          paginate={paginate}
+          className="mb-3 col-sm-10"
+        />
+      </div>
       <div>
         <PokemonList pokemonList={currentPokemon || []} loading={loading} />
-        <Pagination elementsPerPage={pokPerPage} totalElements={pokedex !== null && pokedex.results.length} />
       </div>
     </div>
   );
