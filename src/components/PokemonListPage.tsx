@@ -6,14 +6,14 @@
   4. Typing timeout on fiter and search to avoid too many requests / state chagnes
  */
 
-import React from "react";
+import React from 'react';
 // import axios from 'axios';
-import { useState, useEffect } from "react";
-import { IPokemonListItem } from "../typings/PokemonTypes";
-import PokemonList from "./PokemonList";
-import Pagination from "./Pagination";
-import Searchbar from "./Searchbar";
-import Spinner from "./statusComponents/Spinner";
+import { useState, useEffect } from 'react';
+import { IPokemonListItem } from '../typings/PokemonTypes';
+import PokemonList from './PokemonList';
+import Pagination from './Pagination';
+import Searchbar from './Searchbar';
+import Spinner from './statusComponents/Spinner';
 
 export interface IPokedex {
   count: number;
@@ -90,10 +90,13 @@ const PokemonListPage = () => {
       });
   };
 
-  useEffect(() => {
-    fetchData();
-    console.log("fetch call");
-  }, [limit, offset]);
+  useEffect(
+    () => {
+      fetchData();
+      console.log('fetch call');
+    },
+    [limit, offset],
+  );
 
   //Change page
   const paginate = (pageNumber: number) => {
@@ -157,12 +160,13 @@ const PokemonListPage = () => {
     <div className="container mt-5">
       <div className="row">
         <h2 className="text-primary mb-3 col-sm-2">Pokemon</h2>
-        {/*  <Pagination
-          elementsPerPage={pokPerPage}
-          totalElements={(pokedex !== null && pokedex.results.length) || 0}
+        <Pagination
+          elementsPerPage={state.offset}
+          totalElements={state.count}
+          limit={state.limit}
           paginate={paginate}
           className="mb-3 col-sm-10"
-        /> */}
+        />
       </div>
       <div>
         {/* <Searchbar
