@@ -21,6 +21,7 @@ const Searchbar = (props: ISearchbarProps) => {
           aria-label="Search"
           value={value}
           onChange={onChange}
+          name="searchBar"
         />
         <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={onClick}>
           Search

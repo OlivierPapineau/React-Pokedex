@@ -21,6 +21,8 @@ import Searchbar from './Searchbar';
 import Spinner from './statusComponents/Spinner';
 import fetchPokemon from './pokemonPageElements/methods/fetchPokemon';
 import filterSearch from './pokemonPageElements/methods/filterSearch';
+import PageSizeChanger from './PageSizeChanger';
+import QuickSearch from './QuickSearch';
 
 export interface IPokedex {
   count: number;
@@ -36,7 +38,8 @@ interface IPokemonListPageState {
   loading: boolean;
   offset: number; // pageIndex
   pokedex: IPokedex;
-  searchValue: string;
+  searchBar: string;
+  values: { [key: string]: string };
 }
 
 const initalState = {
@@ -46,12 +49,13 @@ const initalState = {
   loading: true,
   offset: 0,
   pokedex: {} as IPokedex,
-  searchValue: '',
+  searchBar: '',
+  values: {} as { [key: string]: string },
 };
 
 const PokemonListPage = () => {
   const [state, setState] = useState(initalState);
-  const { count, error, limit, loading, offset, pokedex, searchValue } = state;
+  const { count, error, limit, loading, offset, pokedex, values } = state;
 
   const fetchData = async () => {
     setState({ ...state, loading: true });
@@ -79,13 +83,20 @@ const PokemonListPage = () => {
     setState({ ...state, offset: pageNumber });
   };
 
-  const changeSize = (newSize: number) => {
+  const changeSize = (newSize: number = 1) => {
     setState({ ...state, limit: newSize });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value;
-    setState({ ...state, searchValue: inputValue });
+    const inputName = e.currentTarget.name;
+    setState({
+      ...state,
+      values: {
+        ...values,
+        [inputName]: inputValue,
+      },
+    });
   };
 
   const handleSearch = () => {
@@ -95,7 +106,7 @@ const PokemonListPage = () => {
       .then(response => {
         response = {
           ...response,
-          results: filterSearch(response.results, searchValue),
+          results: filterSearch(response.results, values.searchBar),
         };
         return response;
       })
@@ -105,6 +116,26 @@ const PokemonListPage = () => {
           pokedex: response,
         }),
       );
+  };
+
+  const handleSizeChange = () => {
+    const sizeValue = state.values.pageSize;
+    changeSize(Number(sizeValue));
+  };
+
+  const handlePageSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputName = e.currentTarget.name;
+    const inputValue = e.currentTarget.value;
+    setState({
+      ...state,
+      values: {
+        ...values,
+        [inputName]: inputValue,
+      },
+    });
+
+    let currentList: IPokemonListItem[] = [];
+    let newList: IPokemonListItem[] = [];
   };
 
   //console.log(pokedex.results);
@@ -133,8 +164,16 @@ const PokemonListPage = () => {
           className="mb-3 col-sm-10"
         />
       </div>
-      <div>
-        <Searchbar value={searchValue} onChange={handleInputChange} onClick={handleSearch} />
+      <div className="row">
+        <div className="col-sm-4">
+          <Searchbar value={values.searchBar} onChange={handleInputChange} onClick={handleSearch} />
+        </div>
+        <div className="col-sm-4">
+          <QuickSearch onChange={handlePageSearch} value={values.quickSearch} />
+        </div>
+        <div className="col-sm-4">
+          <PageSizeChanger value={values.pageSize} onChange={handleInputChange} onClick={handleSizeChange} />
+        </div>
       </div>
       <div>
         <PokemonList pokemonList={pokedex.results || []} loading={loading} />
