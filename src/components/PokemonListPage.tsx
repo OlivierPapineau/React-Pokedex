@@ -5,6 +5,11 @@
   3. Pagination will do a fetch with offset
   4. Typing timeout on fiter and search to avoid too many requests / state chagnes
  */
+// offset
+// limit
+// counts
+// counts / limit = number of pages
+// offset is the current page number (highlight it as current)
 
 import React from 'react';
 // import axios from 'axios';
@@ -14,6 +19,8 @@ import PokemonList from './PokemonList';
 import Pagination from './Pagination';
 import Searchbar from './Searchbar';
 import Spinner from './statusComponents/Spinner';
+import fetchPokemon from './pokemonPageElements/methods/fetchPokemon';
+import filterSearch from './pokemonPageElements/methods/filterSearch';
 
 export interface IPokedex {
   count: number;
@@ -46,28 +53,17 @@ const PokemonListPage = () => {
   const [state, setState] = useState(initalState);
   const { count, error, limit, loading, offset, pokedex, searchValue } = state;
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setState({ ...state, loading: true });
-    // limit=10&offset=5
-    // replace w fetchPokemon
-    // console.log(`Propterties: limit: ${limit}, offset: ${offset}`);
-    fetch(`http://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`)
-      .then(response => response.json())
-      .then((response: IPokedex) => {
-        console.log('Pokedex avant call: ', pokedex);
-        setState({
-          ...state,
-          count: response.count,
-          limit,
-          loading: false,
-          offset,
-          pokedex: response,
-        });
-      })
-      .catch(error => {
-        console.warn(error);
-        // setErrors(error)
-      });
+    const fetch = await fetchPokemon(limit, offset);
+    setState({
+      ...state,
+      count: fetch.count,
+      limit,
+      loading: false,
+      offset,
+      pokedex: fetch,
+    });
   };
 
   useEffect(
@@ -95,26 +91,21 @@ const PokemonListPage = () => {
   const handleSearch = () => {
     console.log('bloup');
     console.log('__');
-    const searchedPokemon = pokedex.results.filter(pokemon => {
-      const lowerCase = pokemon.name.toLowerCase();
-      const filter = searchValue.toLowerCase();
-      return lowerCase.includes(filter);
-    });
-    console.log('Searched pokemon', searchedPokemon);
-    // setState({
-    //   ...state,
-    //   loading: true,
-    //   limit: count,
-    //   offset: 0,
-    //   pokedex: { ...pokedex, results: searchedPokemon },
-    // });
+    fetchPokemon(964, 0)
+      .then(response => {
+        response = {
+          ...response,
+          results: filterSearch(response.results, searchValue),
+        };
+        return response;
+      })
+      .then(response =>
+        setState({
+          ...state,
+          pokedex: response,
+        }),
+      );
   };
-
-  // offset
-  // limit
-  // counts
-  // counts / limit = number of pages
-  // offset is the current page number (highlight it as current)
 
   //console.log(pokedex.results);
 

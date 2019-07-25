@@ -1,13 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IPokemonListItem } from '../typings/PokemonTypes';
 import { IPokedex } from '../components/PokemonListPage';
 
-const fetchPokemon = (
-  limit: number,
-  offset: number,
-  mode: 'regular' | 'search',
-  searchedPokemon = {} as IPokemonListItem,
-) => {
+const fetchPokemon = (limit: number, offset: number, mode: 'regular' | 'search', searchedPokemon: string = '') => {
   const baseApiLink = 'http://pokeapi.co/api/v2/pokemon/?';
   const linkTail = mode === 'regular' ? `limit=${limit}&offset=${offset}` : mode === 'search' && `limit=964&offset=0`;
   const fullCall = `${baseApiLink}${linkTail}`;
