@@ -29,6 +29,7 @@ interface IPokemonListPageState {
   loading: boolean;
   offset: number; // pageIndex
   pokedex: IPokedex;
+  searchValue: string;
 }
 
 const initalState = {
@@ -38,33 +39,22 @@ const initalState = {
   loading: true,
   offset: 0,
   pokedex: {} as IPokedex,
+  searchValue: '',
 };
 
 const PokemonListPage = () => {
   const [state, setState] = useState(initalState);
-  const { count, error, limit, loading, offset, pokedex } = state;
-
-  // const [hasError, setErrors] = useState();
-  // const [pokedex, setPokedex] = useState<IPokedex | null>(null);
-
-  // const [loading, setLoading] = useState(false);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [pokPerPage, setPokPerPage] = useState(52);
-  // const [inputValue, setInputValue] = useState("");
-  // const [currentPokemonArr, setCurrentPokemon] = useState([] as
-  //   | IPokemonListItem[]
-  //   | false);
-
-  // const indexOfLastPokemon = currentPage * pokPerPage;
-  // const indexOfFirstPokemon = indexOfLastPokemon - pokPerPage;
+  const { count, error, limit, loading, offset, pokedex, searchValue } = state;
 
   const fetchData = () => {
     setState({ ...state, loading: true });
     // limit=10&offset=5
     // replace w fetchPokemon
+    // console.log(`Propterties: limit: ${limit}, offset: ${offset}`);
     fetch(`http://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`)
       .then(response => response.json())
       .then((response: IPokedex) => {
+        console.log('Pokedex avant call: ', pokedex);
         setState({
           ...state,
           count: response.count,
@@ -74,16 +64,6 @@ const PokemonListPage = () => {
           pokedex: response,
         });
       })
-      // .then(response => {
-      //   //console.log(response);
-      //   //console.log(pokedex);
-      //   setCurrentPokemon(
-      //     response !== null &&
-      //       response.results.slice(indexOfFirstPokemon, indexOfLastPokemon),
-      //   );
-      //   setLoading(false);
-      //   //console.log(loading);
-      // })
       .catch(error => {
         console.warn(error);
         // setErrors(error)
@@ -107,42 +87,36 @@ const PokemonListPage = () => {
     setState({ ...state, limit: newSize });
   };
 
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setInputValue(e.currentTarget.value);
-  //   let currentList: IPokemonListItem[] | false = [];
-  //   let newList: IPokemonListItem[] | false = [];
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.currentTarget.value;
+    setState({ ...state, searchValue: inputValue });
+  };
 
-  //   if (e.currentTarget.value !== "") {
-  //     currentList = (pokedex && pokedex.results) || false;
-
-  //     if (currentList !== false) {
-  //       newList = currentList.filter(pokemon => {
-  //         const lowerCase = pokemon.name.toLowerCase();
-  //         const filter = e.currentTarget.value.toLowerCase();
-
-  //         return lowerCase.includes(filter);
-  //       });
-  //     }
-  //   } else {
-  //     newList = (pokedex && pokedex.results) || false;
-  //   }
-
-  //   //Supposed to have setState... but hooks...
-  //   setCurrentPokemon(
-  //     newList !== false &&
-  //       newList.slice(indexOfFirstPokemon, indexOfLastPokemon),
-  //   );
-  //   //console.log(newList);
-  // };
-
-  //console.log(currentPokemonArr);
-  //console.log(pokedex);
+  const handleSearch = () => {
+    console.log('bloup');
+    console.log('__');
+    const searchedPokemon = pokedex.results.filter(pokemon => {
+      const lowerCase = pokemon.name.toLowerCase();
+      const filter = searchValue.toLowerCase();
+      return lowerCase.includes(filter);
+    });
+    console.log('Searched pokemon', searchedPokemon);
+    // setState({
+    //   ...state,
+    //   loading: true,
+    //   limit: count,
+    //   offset: 0,
+    //   pokedex: { ...pokedex, results: searchedPokemon },
+    // });
+  };
 
   // offset
   // limit
   // counts
   // counts / limit = number of pages
   // offset is the current page number (highlight it as current)
+
+  //console.log(pokedex.results);
 
   if (loading) {
     return (
@@ -161,19 +135,15 @@ const PokemonListPage = () => {
       <div className="row">
         <h2 className="text-primary mb-3 col-sm-2">Pokemon</h2>
         <Pagination
-          elementsPerPage={state.offset}
+          elementsPerPage={state.limit}
           totalElements={state.count}
-          limit={state.limit}
+          offset={state.offset}
           paginate={paginate}
           className="mb-3 col-sm-10"
         />
       </div>
       <div>
-        {/* <Searchbar
-          onChange={handleSearch}
-          value={inputValue}
-          className="mb-3"
-        /> */}
+        <Searchbar value={searchValue} onChange={handleInputChange} onClick={handleSearch} />
       </div>
       <div>
         <PokemonList pokemonList={pokedex.results || []} loading={loading} />
