@@ -1,13 +1,21 @@
-import React from 'react';
-import { IPokemonListItem } from '../typings/PokemonTypes';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import normalize from '../helpers/normalize';
-import Sprite from './pokemonPageElements/Sprite';
-import getIdFromUrl from '../helpers/getIdFormUrl';
+import React from "react";
+import { IPokemonListItem } from "../typings/PokemonTypes";
+import { Link, RouteComponentProps } from "react-router-dom";
+import normalize from "../helpers/normalize";
+import Sprite from "./pokemonPageElements/Sprite";
+import getIdFromUrl from "../helpers/getIdFormUrl";
+
+export type IAnyPokemonListDisplayType = keyof typeof IPokemonListDisplayType;
+enum IPokemonListDisplayType {
+  CARD = "CARD",
+  LIST = "LIST",
+}
 
 interface IPokemonListProps {
-  pokemonList: IPokemonListItem[];
+  displayType?: IAnyPokemonListDisplayType;
+  filteredIds?: string[];
   loading: boolean;
+  pokemonList: IPokemonListItem[];
 }
 
 // interface Identifiable {
@@ -15,8 +23,15 @@ interface IPokemonListProps {
 //   url: string;
 // }
 
+// Consume the displayType property to change the display of the pokemon, form LIST or CARD view
+// Use filteredIds to hide filtered pokemon
 const PokemonList = (props: IPokemonListProps) => {
-  const { pokemonList, loading } = props;
+  const {
+    displayType = IPokemonListDisplayType.CARD,
+    filteredIds = [],
+    pokemonList,
+    loading,
+  } = props;
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -29,12 +44,18 @@ const PokemonList = (props: IPokemonListProps) => {
   return (
     <div className="row mb-5">
       {pokemonList.map((pokemon, index) => {
+        const visible = filteredIds.indexOf(pokemon.name) === -1;
         return (
-          <div className="col-sm-3 mb-2" key={pokemon.name}>
+          <div
+            className={`col-sm-3 mb-2${!visible ? " d-none" : ""}`}
+            key={pokemon.name}
+          >
             <div className="card text-center">
               <div className="card-body">
                 <h5 key={pokemon.name} className="card-title">
-                  <Link to={`pokemon/${pokemonIds[index]}`}>{normalize(pokemon.name)}</Link>
+                  <Link to={`pokemon/${pokemonIds[index]}`}>
+                    {normalize(pokemon.name)}
+                  </Link>
                 </h5>
                 <Sprite id={pokemonIds[index]} />
               </div>

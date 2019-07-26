@@ -1,18 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link, RouteComponentProps } from 'react-router-dom';
+import React from "react";
 
 interface IPaginationProps {
-  elementsPerPage: number;
-  totalElements: number;
-  offset: number;
-  paginate: (pageNumber: number) => any;
   className?: string;
+  elementsPerPage: number;
+  paginate: (pageNumber: number) => any;
+  totalElements: number;
 }
 
 //type TParams = { id?: string };
 
 const Pagination = (props: IPaginationProps) => {
-  const { elementsPerPage, totalElements, paginate, offset, className = '' } = props;
+  const { className = "", elementsPerPage, paginate, totalElements } = props;
   const pageNumbers = [];
   const clName = `${className}`;
   const numberOfPages = totalElements / elementsPerPage;
@@ -28,7 +26,10 @@ const Pagination = (props: IPaginationProps) => {
         {pageNumbers.map(number => {
           return (
             <li key={number} className="page-item">
-              <span onClick={() => paginate(elementsPerPage * (number - 1))} className="page-link">
+              <span
+                onClick={() => paginate(elementsPerPage * (number - 1))}
+                className="page-link"
+              >
                 {number}
               </span>
             </li>

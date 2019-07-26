@@ -6,18 +6,18 @@
   4. Typing timeout on fiter and search to avoid too many requests / state chagnes
  */
 
-import React from 'react';
+import React from "react";
 // import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { IPokemonListItem } from '../typings/PokemonTypes';
-import PokemonList from './PokemonList';
-import Pagination from './Pagination';
-import Searchbar from './Searchbar';
-import Spinner from './statusComponents/Spinner';
-import fetchPokemon from './pokemonPageElements/methods/fetchPokemon';
-import filterSearch from './pokemonPageElements/methods/filterSearch';
-import PageSizeChanger from './PageSizeChanger';
-import QuickSearch from './QuickSearch';
+import { useState, useEffect } from "react";
+import { IPokemonListItem } from "../typings/PokemonTypes";
+import PokemonList from "./PokemonList";
+import Pagination from "./Pagination";
+import Searchbar from "./Searchbar";
+import Spinner from "./statusComponents/Spinner";
+import fetchPokemon from "./pokemonPageElements/methods/fetchPokemon";
+import filterSearch from "./pokemonPageElements/methods/filterSearch";
+import PageSizeChanger from "./PageSizeChanger";
+import QuickSearch from "./QuickSearch";
 
 export interface IPokedex {
   count: number;
@@ -29,6 +29,7 @@ export interface IPokedex {
 interface IPokemonListPageState {
   count: number;
   error: any | null;
+  filteredIds: string[];
   limit: number; // pageSize
   loading: boolean;
   offset: number; // pageIndex
@@ -40,17 +41,27 @@ interface IPokemonListPageState {
 const initalState = {
   count: 0,
   error: null,
+  filteredIds: [],
   limit: 52,
   loading: true,
   offset: 0,
   pokedex: {} as IPokedex,
-  searchBar: '',
+  searchBar: "",
   values: {} as { [key: string]: string },
 };
 
 const PokemonListPage = () => {
   const [state, setState] = useState(initalState);
-  const { count, error, limit, loading, offset, pokedex, values } = state;
+  const {
+    count,
+    error,
+    filteredIds,
+    limit,
+    loading,
+    offset,
+    pokedex,
+    values,
+  } = state;
 
   const fetchData = async () => {
     setState({ ...state, loading: true });
@@ -65,13 +76,10 @@ const PokemonListPage = () => {
     });
   };
 
-  useEffect(
-    () => {
-      fetchData();
-      console.log('fetch call');
-    },
-    [limit, offset],
-  );
+  useEffect(() => {
+    console.log("fetch call");
+    fetchData();
+  }, [limit, offset]);
 
   //Change page
   const paginate = (pageNumber: number) => {
@@ -82,6 +90,7 @@ const PokemonListPage = () => {
     setState({ ...state, limit: newSize });
   };
 
+  // When filter is cleared pokemon should come back into view
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value;
     const inputName = e.currentTarget.name;
@@ -94,23 +103,16 @@ const PokemonListPage = () => {
     });
   };
 
-  const handleSearch = () => {
-    console.log('bloup');
-    console.log('__');
+  // Extract search function into seperate helper function that will take one paramter
+  // searchHelper(searchTerm: string) => Promsise<IPokeDex>
+  const handleSearch = (event: React.FormEvent | React.MouseEvent) => {
+    event.preventDefault();
     fetchPokemon(964, 0)
-      .then(response => {
-        response = {
-          ...response,
-          results: filterSearch(response.results, values.searchBar),
-        };
-        return response;
-      })
-      .then(response =>
-        setState({
-          ...state,
-          pokedex: response,
-        }),
-      );
+      .then(response => ({
+        ...response,
+        results: filterSearch(response.results, values.searchBar),
+      }))
+      .then(response => setState({ ...state, pokedex: response }));
   };
 
   const handleSizeChange = () => {
@@ -152,26 +154,37 @@ const PokemonListPage = () => {
       <div className="row">
         <h2 className="text-primary mb-3 col-sm-2">Pokemon</h2>
         <Pagination
-          elementsPerPage={state.limit}
-          totalElements={state.count}
-          offset={state.offset}
-          paginate={paginate}
           className="mb-3 col-sm-10"
+          elementsPerPage={limit}
+          paginate={paginate}
+          totalElements={count}
         />
       </div>
       <div className="row">
         <div className="col-sm-4">
-          <Searchbar value={values.searchBar} onChange={handleInputChange} onClick={handleSearch} />
+          <Searchbar
+            onChange={handleInputChange}
+            onClick={handleSearch}
+            value={values.searchBar}
+          />
         </div>
         <div className="col-sm-3">
           <QuickSearch onChange={handlePageSearch} value={values.quickSearch} />
         </div>
         <div className="col-sm-5">
-          <PageSizeChanger value={values.pageSize} onChange={handleInputChange} onClick={handleSizeChange} />
+          <PageSizeChanger
+            onChange={handleInputChange}
+            onClick={handleSizeChange}
+            value={values.pageSize}
+          />
         </div>
       </div>
       <div>
-        <PokemonList pokemonList={pokedex.results || []} loading={loading} />
+        <PokemonList
+          filteredIds={filteredIds}
+          pokemonList={pokedex.results || []}
+          loading={loading}
+        />
       </div>
     </div>
   );

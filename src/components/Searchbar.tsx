@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 interface ISearchbarProps {
   className?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
-  onClick: () => any;
+  onClick: (event: React.FormEvent | React.MouseEvent) => any;
   value: string;
 }
 
@@ -13,17 +13,21 @@ const Searchbar = (props: ISearchbarProps) => {
 
   return (
     <div>
-      <form className="form-inline mb-3">
+      <form className="form-inline mb-3" onSubmit={onClick}>
         <input
-          className={clName}
-          type="search"
-          placeholder="Search"
           aria-label="Search"
-          value={value}
-          onChange={onChange}
+          className={clName}
           name="searchBar"
+          onChange={onChange}
+          placeholder="Search"
+          type="search"
+          value={value}
         />
-        <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={onClick}>
+        <button
+          className="btn btn-outline-success my-2 my-sm-0"
+          type="button"
+          onClick={onClick}
+        >
           Search
         </button>
       </form>
