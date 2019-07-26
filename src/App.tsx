@@ -6,6 +6,7 @@ import Home from './components/Home';
 import PokemonListPage from './components/PokemonListPage';
 import About from './components/About';
 import PokemonPage from './components/PokemonPage';
+import ItemPage from './components/ItemPage';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
           <Route exact path="/pokemon" component={PokemonListPage} />
           <Route path="/pokemon/:id" component={PokemonPage} />
           <Route path="/about" component={About} />
+          <Route path="/items/:id" component={ItemPage} />
         </Switch>
       </div>
     </Router>

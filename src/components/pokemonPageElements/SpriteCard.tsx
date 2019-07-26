@@ -10,7 +10,7 @@ interface ISpriteCardProps {
 
 const SpriteCard = (props: ISpriteCardProps) => {
   const { imagePath, pokemonObject } = props;
-  const { id, base_experience, height, types } = pokemonObject;
+  const { id } = pokemonObject;
   let wantedInfo = [];
 
   for (const [key, value] of Object.entries(pokemonObject)) {
@@ -32,16 +32,18 @@ const SpriteCard = (props: ISpriteCardProps) => {
       );
       wantedInfo.push(typeElm);
     }
-    if (key === 'id' || key === 'base_experience' || key === 'height') {
+    if (key === 'id' || key === 'base_experience' || key === 'height' || key === 'weight') {
       wantedInfo.push(<li key={key} className="list-group-item">{`${normalize(key)}: ${value}`}</li>);
     }
   }
 
   return (
     <div className="card">
+      <div className="card-header">
+        <h6>Sprite</h6>
+      </div>
       <div className="card-body">
         <span className="spCard__image">
-          Sprite:
           <Sprite id={id} />
         </span>
         <div className="card">

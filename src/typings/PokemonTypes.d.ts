@@ -9,7 +9,7 @@ export interface IPokemon {
   forms: IRegApiObject[];
   game_indices: IPokemonGame[];
   height: number;
-  held_items?: IRegApiObject[];
+  held_items?: Item[];
   id: number;
   is_default: boolean;
   location_area_encounters?: string;
@@ -70,4 +70,14 @@ export interface IPokemonGame {
 export interface IRegApiObject {
   name: string;
   url: string;
+}
+
+export interface IItemListObject {
+  item: IRegApiObject;
+  version_details: IVersionDetail[];
+}
+
+export interface IVersionDetail {
+  rarity: number;
+  version: IRegApiObject;
 }

@@ -1,8 +1,9 @@
-import React from "react";
-import { IPokemonListItem } from "../typings/PokemonTypes";
-import { Link, RouteComponentProps } from "react-router-dom";
-import normalize from "../helpers/normalize";
-import Sprite from "./pokemonPageElements/Sprite";
+import React from 'react';
+import { IPokemonListItem } from '../typings/PokemonTypes';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import normalize from '../helpers/normalize';
+import Sprite from './pokemonPageElements/Sprite';
+import getIdFromUrl from '../helpers/getIdFormUrl';
 
 interface IPokemonListProps {
   pokemonList: IPokemonListItem[];
@@ -21,9 +22,7 @@ const PokemonList = (props: IPokemonListProps) => {
   }
 
   const pokemonIds = pokemonList.map(pokemon => {
-    const ID = pokemon.url.split("/");
-    const arrIds = ID[ID.length - 2];
-    return arrIds;
+    return getIdFromUrl(pokemon.url);
   });
   //console.log(pokemonIds);
 
@@ -35,9 +34,7 @@ const PokemonList = (props: IPokemonListProps) => {
             <div className="card text-center">
               <div className="card-body">
                 <h5 key={pokemon.name} className="card-title">
-                  <Link to={`pokemon/${pokemonIds[index]}`}>
-                    {normalize(pokemon.name)}
-                  </Link>
+                  <Link to={`pokemon/${pokemonIds[index]}`}>{normalize(pokemon.name)}</Link>
                 </h5>
                 <Sprite id={pokemonIds[index]} />
               </div>

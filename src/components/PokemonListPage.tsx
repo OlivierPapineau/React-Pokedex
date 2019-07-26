@@ -1,15 +1,10 @@
 /*
   Next parts:
-  1. Filter search bar to filter visible items (no fetch)
-  2. Search search bar (do fetch ) // allow clear fetch to reset back to previous limit/offset
-  3. Pagination will do a fetch with offset
+  1. Filter search bar to filter visible items (no fetch) DONE
+  2. Search search bar (do fetch ) // allow clear fetch to reset back to previous limit/offset DONE
+  3. Pagination will do a fetch with offset DONE
   4. Typing timeout on fiter and search to avoid too many requests / state chagnes
  */
-// offset
-// limit
-// counts
-// counts / limit = number of pages
-// offset is the current page number (highlight it as current)
 
 import React from 'react';
 // import axios from 'axios';
@@ -126,19 +121,19 @@ const PokemonListPage = () => {
   const handlePageSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.currentTarget.name;
     const inputValue = e.currentTarget.value;
+    const { pokedex } = state;
     setState({
       ...state,
       values: {
         ...values,
         [inputName]: inputValue,
       },
+      pokedex: {
+        ...pokedex,
+        results: filterSearch(pokedex.results, inputValue),
+      },
     });
-
-    let currentList: IPokemonListItem[] = [];
-    let newList: IPokemonListItem[] = [];
   };
-
-  //console.log(pokedex.results);
 
   if (loading) {
     return (
@@ -168,10 +163,10 @@ const PokemonListPage = () => {
         <div className="col-sm-4">
           <Searchbar value={values.searchBar} onChange={handleInputChange} onClick={handleSearch} />
         </div>
-        <div className="col-sm-4">
+        <div className="col-sm-3">
           <QuickSearch onChange={handlePageSearch} value={values.quickSearch} />
         </div>
-        <div className="col-sm-4">
+        <div className="col-sm-5">
           <PageSizeChanger value={values.pageSize} onChange={handleInputChange} onClick={handleSizeChange} />
         </div>
       </div>
