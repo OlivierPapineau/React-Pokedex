@@ -47,7 +47,7 @@ const PokemonList = (props: IPokemonListProps) => {
             <div className="card text-center">
               <div className="card-body">
                 <h5 key={pokemon.name} className="card-title">
-                  <Link to={`pokemon/${pokemonIds[index]}`}>{normalize(pokemon.name)}</Link>
+                  <Link to={`/pokemon/${pokemonIds[index]}`}>{normalize(pokemon.name)}</Link>
                 </h5>
                 <Sprite id={pokemonIds[index]} />
               </div>

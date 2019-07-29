@@ -24,7 +24,10 @@ const initialState: IItemPageState = {
   isLoading: true,
   error: '',
 };
-
+/**
+ * Props item page
+ * @todo Seperate the different elements of the page in components
+ */
 const ItemPage = (props: IItemPageProps) => {
   const { match } = props;
   const [state, setState] = useState<IItemPageState>(initialState);
@@ -61,6 +64,7 @@ const ItemPage = (props: IItemPageProps) => {
             <ItemSprite url={sprites.default} />
           </BsCard>
         </div>
+
         <div className="col-sm-9">
           <BsCard cardTitle="Description" whiteText={false} positionProp="mt-3">
             <div>
@@ -82,7 +86,7 @@ const ItemPage = (props: IItemPageProps) => {
           <PokemonList
             pokemonList={held_by_pokemon.map(pokemonObj => {
               const pokemon: IPokemonListItem = pokemonObj.pokemon;
-              console.log(pokemon.url);
+              //console.log(pokemon.url);
               return {
                 name: pokemon.name,
                 url: pokemon.url,

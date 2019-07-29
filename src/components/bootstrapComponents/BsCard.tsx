@@ -12,7 +12,7 @@ enum ECardColors {
   DARK = 'bg-dark',
 }
 
-interface IBsCardProps {
+export interface IBsCardProps {
   cardTitle: string;
   color?: ECardColors;
   whiteText: boolean;
