@@ -14,21 +14,21 @@ enum ECardColors {
 
 interface IBsCardProps {
   cardTitle: string;
-  cardContent: string | JSX.Element | JSX.Element[];
   color?: ECardColors;
   whiteText: boolean;
   positionProp?: string; //Ex: mb-3
+  children?: JSX.Element | JSX.Element[];
 }
 
 const BsCard = (props: IBsCardProps) => {
-  const { cardTitle, cardContent, color = ECardColors.NORMAL, whiteText = 'true', positionProp } = props;
+  const { cardTitle, color = ECardColors.NORMAL, whiteText = 'true', positionProp } = props;
   const textColor = whiteText === true ? 'text-white' : '';
   const clName = `card ${textColor} ${color} ${positionProp}`;
 
   return (
     <div className={clName}>
       <div className="card-header">{cardTitle}</div>
-      <div className="card-body">{cardContent}</div>
+      <div className="card-body">{props.children}</div>
     </div>
   );
 };
