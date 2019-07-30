@@ -1,5 +1,6 @@
 import IRegApiObject from './PokemonTypes';
 import ISprites from './PokemonTypes';
+import IPokemonListItem from './PokemonTypes';
 
 interface IItem {
   attributes: IRegApiObject[];
@@ -16,12 +17,16 @@ interface IItem {
       generation: IRegApiObject;
     }
   ];
-  held_by_pokemon: IRegApiObject[];
+  held_by_pokemon: IItemHolder[];
   id: number;
   machines: IRegApiObject[];
   name: string;
   names: IName[];
   sprites: ISprites;
+}
+
+interface IItemHolder {
+  pokemon: IPokemonListItem;
 }
 
 interface IFlavorTextEntry {

@@ -3,13 +3,9 @@ import { RouteComponentProps } from 'react-router-dom';
 import { IItem } from '../typings/ItemTypes';
 import normalize from '../helpers/normalize';
 import Spinner from './statusComponents/Spinner';
-import Sprite from './pokemonPageElements/Sprite';
-import ItemSprite from './itemPageElements/ItemSprite';
-import BsCard from './bootstrapComponents/BsCard';
-import BsList from './bootstrapComponents/BsList';
-import BsListItem from './bootstrapComponents/BsListItem';
-import PokemonList from './PokemonList';
-import { IPokemonListItem } from '../typings/PokemonTypes';
+import ItemRelatedPokemon from './itemPageElements/ItemRelatedPokemon';
+import ItemSpriteCard from './itemPageElements/ItemSpriteCard';
+import ItemDescCard from './itemPageElements/ItemDescCard';
 
 interface IItemPageProps extends RouteComponentProps<{ id: string }> {}
 
@@ -24,10 +20,7 @@ const initialState: IItemPageState = {
   isLoading: true,
   error: '',
 };
-/**
- * Props item page
- * @todo Seperate the different elements of the page in components
- */
+
 const ItemPage = (props: IItemPageProps) => {
   const { match } = props;
   const [state, setState] = useState<IItemPageState>(initialState);
@@ -60,41 +53,26 @@ const ItemPage = (props: IItemPageProps) => {
       <h2>{normalize(name)}</h2>
       <div className="row">
         <div className="col-sm-3">
-          <BsCard cardTitle="Sprite" whiteText={false} positionProp="mt-3">
-            <ItemSprite url={sprites.default} />
-          </BsCard>
+          <ItemSpriteCard cardTitle="Sprite" positionProp="mt-3" spriteUrl={sprites.default} whiteText={false} />
         </div>
-
         <div className="col-sm-9">
-          <BsCard cardTitle="Description" whiteText={false} positionProp="mt-3">
-            <div>
-              {flavor_text_entries[2].text}
-              <div className="mt-3">
-                Effects:
-                <BsList listType="unordered">
-                  {effect_entries.map((effectObj, index) => {
-                    return <BsListItem key={`effect-${index}`}>{effectObj.effect}</BsListItem>;
-                  })}
-                </BsList>
-              </div>
-            </div>
-          </BsCard>
+          <ItemDescCard
+            cardTitle="Description"
+            effects={effect_entries}
+            itemDesc={flavor_text_entries[2].text}
+            positionProp="mt-3"
+            whiteText={false}
+          />
         </div>
       </div>
       <div>
-        <BsCard cardTitle="Also held by" whiteText={false} positionProp="mt-3">
-          <PokemonList
-            pokemonList={held_by_pokemon.map(pokemonObj => {
-              const pokemon: IPokemonListItem = pokemonObj.pokemon;
-              //console.log(pokemon.url);
-              return {
-                name: pokemon.name,
-                url: pokemon.url,
-              };
-            })}
-            loading={isLoading}
-          />
-        </BsCard>
+        <ItemRelatedPokemon
+          cardTitle="Also held by"
+          pageIsLoading={isLoading}
+          positionProp="mt-3"
+          relatedList={held_by_pokemon}
+          whiteText={false}
+        />
       </div>
     </div>
   );
