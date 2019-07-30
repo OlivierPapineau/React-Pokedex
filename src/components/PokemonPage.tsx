@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import Spinner from './statusComponents/Spinner';
-import normalize from '../helpers/normalize';
-import SpriteCard from './pokemonPageElements/SpriteCard';
-import { IPokemon } from '../typings/PokemonTypes';
-import GamesCard from './pokemonPageElements/GamesCard';
-import ItemsCard from './pokemonPageElements/ItemsCard';
-import RelatedPokemon from './RelatedPokemon';
+import React, { useState, useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import Spinner from "./statusComponents/Spinner";
+import normalize from "../helpers/normalize";
+import SpriteCard from "./pokemonPageElements/SpriteCard";
+import { IPokemon } from "../typings/PokemonTypes";
+import GamesCard from "./pokemonPageElements/GamesCard";
+import ItemsCard from "./pokemonPageElements/ItemsCard";
+import RelatedPokemon from "./RelatedPokemon";
 
 interface IPokemonPageProps extends RouteComponentProps<{ id: string }> {}
 
@@ -19,11 +19,13 @@ interface IPokemonPageState {
 const initialState: IPokemonPageState = {
   pokemon: {} as IPokemon,
   isLoading: true,
-  error: '',
+  error: "",
 };
 
 const PokemonPage = (props: IPokemonPageProps) => {
   const { match } = props;
+  const { params } = match;
+  const { id } = params;
   const [state, setState] = useState(initialState);
 
   const fetchPokemonData = () => {
@@ -41,7 +43,7 @@ const PokemonPage = (props: IPokemonPageProps) => {
 
   useEffect(() => {
     fetchPokemonData();
-  }, []);
+  }, [id]);
 
   console.log(state.pokemon);
 
@@ -62,7 +64,10 @@ const PokemonPage = (props: IPokemonPageProps) => {
       <h1>{state.pokemon.name && normalize(state.pokemon.name)} </h1>
       <div className="row">
         <div className="col-md-4">
-          <SpriteCard imagePath={state.pokemon.sprites.front_default || ''} pokemonObject={state.pokemon} />
+          <SpriteCard
+            imagePath={state.pokemon.sprites.front_default || ""}
+            pokemonObject={state.pokemon}
+          />
           <ItemsCard held_items={state.pokemon.held_items || []} />
         </div>
         <div className="col-md-4">
