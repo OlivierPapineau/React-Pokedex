@@ -10,10 +10,10 @@ const BsList = (props: IBsListProps) => {
   const { style = '', listType } = props;
   const clName = `${style} list-group`;
   const listElement =
-    listType === 'unordered' ? (
+    listType === 'ordered' ? (
       <ol className={clName}>{props.children}</ol>
     ) : (
-      listType === 'ordered' && <ul className={clName}>{props.children}</ul>
+      listType === 'unordered' && <ul className={clName}>{props.children}</ul>
     );
 
   return <div>{listElement}</div>;
