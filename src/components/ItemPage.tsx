@@ -6,6 +6,8 @@ import Spinner from './statusComponents/Spinner';
 import ItemRelatedPokemon from './itemPageElements/ItemRelatedPokemon';
 import ItemSpriteCard from './itemPageElements/ItemSpriteCard';
 import ItemDescCard from './itemPageElements/ItemDescCard';
+import ItemSpecCard from './itemPageElements/ItemSpecsCard';
+import { IRegApiObject } from '../typings/PokemonTypes';
 
 interface IItemPageProps extends RouteComponentProps<{ id: string }> {}
 
@@ -25,7 +27,18 @@ const ItemPage = (props: IItemPageProps) => {
   const { match } = props;
   const [state, setState] = useState<IItemPageState>(initialState);
   const { item, isLoading, error } = state;
-  const { name, sprites, flavor_text_entries, effect_entries, held_by_pokemon } = item;
+  const {
+    name,
+    sprites,
+    flavor_text_entries,
+    effect_entries,
+    held_by_pokemon,
+    attributes,
+    category,
+    cost,
+    fling_effect,
+    fling_power,
+  } = item;
 
   const fetchItemData = () => {
     fetch(`https://pokeapi.co/api/v2/item/${match.params.id}`)
@@ -65,14 +78,28 @@ const ItemPage = (props: IItemPageProps) => {
           />
         </div>
       </div>
-      <div>
-        <ItemRelatedPokemon
-          cardTitle="Also held by"
-          pageIsLoading={isLoading}
-          positionProp="mt-3"
-          relatedList={held_by_pokemon}
-          whiteText={false}
-        />
+      <div className="row">
+        <div className="col-sm-6">
+          <ItemRelatedPokemon
+            cardTitle="Also held by"
+            pageIsLoading={isLoading}
+            positionProp="mt-3"
+            relatedList={held_by_pokemon}
+            whiteText={false}
+          />
+        </div>
+        <div className="col-sm-6">
+          <ItemSpecCard
+            attributes={attributes}
+            cardTitle="Specs"
+            category={category}
+            cost={cost}
+            flingEffect={fling_effect}
+            flingPower={fling_power}
+            positionProp="mt-3"
+            whiteText={false}
+          />
+        </div>
       </div>
     </div>
   );

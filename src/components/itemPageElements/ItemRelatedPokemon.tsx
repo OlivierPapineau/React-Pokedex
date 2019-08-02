@@ -22,7 +22,11 @@ const ItemRelatedPokemon = (props: IItemRelatedPokemonProps) => {
 
   return (
     <BsCard {...rest}>
-      <PokemonList pokemonList={pokemonList} loading={pageIsLoading} />
+      {pokemonList.length > 0 ? (
+        <PokemonList pokemonList={pokemonList} loading={pageIsLoading} displayType="LIST" />
+      ) : (
+        <p>This item is not held by any pokemon</p>
+      )}
     </BsCard>
   );
 };

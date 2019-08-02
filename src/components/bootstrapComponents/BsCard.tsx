@@ -1,6 +1,6 @@
 import React from 'react';
 
-enum ECardColors {
+export enum ECardColors {
   NORMAL = '',
   PRIMARY = 'bg-primary',
   SECONDARY = 'bg-secondary',
