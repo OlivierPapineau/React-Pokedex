@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import getLocalStorage from '../helpers/getLocalStorage';
-import BsList from './bootstrapComponents/BsList';
-import BsListItem from './bootstrapComponents/BsListItem';
 import normalize from '../helpers/normalize';
 import { Link } from 'react-router-dom';
 import Sprite from './pokemonPageElements/Sprite';
@@ -42,6 +40,17 @@ const FavoritesPage = () => {
     [localStorage],
   );
 
+  const removePokemon = (pokemonId: string) => {
+    localStorage.removeItem(`pokemon${pokemonId}`);
+    let newState = { ...state };
+    newState.pokemonList.forEach((pokemon, index) => {
+      if (pokemon.id === pokemonId) {
+        newState.pokemonList.splice(index, 1);
+      }
+    });
+    setState(newState);
+  };
+
   return (
     <div className="container mt-5">
       <h3>Favorites</h3>
@@ -55,7 +64,11 @@ const FavoritesPage = () => {
                     <Link to={`/pokemon/${pokemon.id}`}>{normalize(pokemon.name)}</Link>
                   </h5>
                   <Sprite id={pokemon.id} />
-                  <div>
+                  <div
+                    onClick={() => {
+                      removePokemon(pokemon.id);
+                    }}
+                  >
                     <BsButton type="button" outline={true} color={EButtonColors.DANGER}>
                       Delete
                     </BsButton>
