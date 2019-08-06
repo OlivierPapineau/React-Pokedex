@@ -7,6 +7,7 @@ import Sprite from './pokemonPageElements/Sprite';
 import getIdFromUrl from '../helpers/getIdFormUrl';
 import BsList from './bootstrapComponents/BsList';
 import BsListItem from './bootstrapComponents/BsListItem';
+import BsButton, { EButtonColors } from './bootstrapComponents/BsButton';
 
 export type IAnyPokemonListDisplayType = keyof typeof IPokemonListDisplayType;
 enum IPokemonListDisplayType {
@@ -40,6 +41,16 @@ const PokemonList = (props: IPokemonListProps) => {
   });
   //console.log(pokemonIds);
 
+  const handleFave = (pokemonId: string, pokemonName: string) => {
+    console.log(pokemonName);
+    console.log(pokemonId);
+    const pokemon = {
+      name: pokemonName,
+      id: pokemonId,
+    };
+    window.localStorage.setItem(`pokemon${pokemonId}`, JSON.stringify(pokemon));
+  };
+
   return (
     <div>
       {displayType === IPokemonListDisplayType.CARD ? (
@@ -54,6 +65,15 @@ const PokemonList = (props: IPokemonListProps) => {
                       <Link to={`/pokemon/${pokemonIds[index]}`}>{normalize(pokemon.name)}</Link>
                     </h5>
                     <Sprite id={pokemonIds[index]} />
+                    <div
+                      onClick={e => {
+                        handleFave(getIdFromUrl(pokemon.url), pokemon.name);
+                      }}
+                    >
+                      <BsButton type="button" outline={true} color={EButtonColors.SUCCESS}>
+                        Add to favorites
+                      </BsButton>
+                    </div>
                   </div>
                 </div>
               </div>

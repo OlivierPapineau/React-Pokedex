@@ -18,8 +18,8 @@ const ItemSpecCard = (props: IItemSpecCardProps) => {
   const elmObj = {
     category: category.name,
     cost: cost,
-    flingEffect: flingEffect.name,
-    flingPower: flingPower,
+    flingEffect: flingEffect !== null ? flingEffect.name : '',
+    flingPower: flingPower !== null ? flingPower : '',
   };
 
   let elms = [];
@@ -27,7 +27,7 @@ const ItemSpecCard = (props: IItemSpecCardProps) => {
     if (value !== null || value !== false) {
       elms.push(
         <div>
-          <h5>{normalize(key)}</h5>
+          <h5>{value !== '' && normalize(key)}</h5>
           <p>{typeof value !== 'number' ? normalize(value) : value}</p>
         </div>,
       );
@@ -37,7 +37,7 @@ const ItemSpecCard = (props: IItemSpecCardProps) => {
   return (
     <BsCard {...rest}>
       <div>
-        <h5>Attributes</h5>
+        <h5>{attributes.length !== 0 && 'Attributes'}</h5>
         <BsList listType="unordered">
           {attributes.map((attObj, index) => {
             return <BsListItem>{normalize(attObj.name)}</BsListItem>;

@@ -8,12 +8,13 @@ import About from './components/About';
 import PokemonPage from './components/PokemonPage';
 import ItemPage from './components/ItemPage';
 import ItemListPage from './components/ItemListPage';
+import FavoritesPage from './components/FavoritesPage';
 
 const App: React.FC = () => {
   return (
     <Router>
       <div>
-        <Navbar links={['Home', 'Pokemon', 'Items', 'About']} />
+        <Navbar links={['Home', 'Pokemon', 'Items', 'Favorites', 'About']} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/pokemon" component={PokemonListPage} />
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Route path="/about" component={About} />
           <Route exact path="/items" component={ItemListPage} />
           <Route path="/items/:id" component={ItemPage} />
+          <Route exact path="/favorites" component={FavoritesPage} />
         </Switch>
       </div>
     </Router>

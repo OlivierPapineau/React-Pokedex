@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface IPaginationProps {
   className?: string;
@@ -10,7 +10,7 @@ interface IPaginationProps {
 //type TParams = { id?: string };
 
 const Pagination = (props: IPaginationProps) => {
-  const { className = "", elementsPerPage, paginate, totalElements } = props;
+  const { className = '', elementsPerPage, paginate, totalElements } = props;
   const pageNumbers = [];
   const clName = `${className}`;
   const numberOfPages = totalElements / elementsPerPage;
@@ -22,14 +22,11 @@ const Pagination = (props: IPaginationProps) => {
 
   return (
     <nav className={clName}>
-      <ul className="pagination">
+      <ul className="pagination pagination-sm">
         {pageNumbers.map(number => {
           return (
             <li key={number} className="page-item">
-              <span
-                onClick={() => paginate(elementsPerPage * (number - 1))}
-                className="page-link"
-              >
+              <span onClick={() => paginate(elementsPerPage * (number - 1))} className="page-link">
                 {number}
               </span>
             </li>
