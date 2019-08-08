@@ -1,10 +1,11 @@
-import * as React from "react";
-import Anchor from "./Anchor";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import * as React from 'react';
+import Anchor from './Anchor';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 interface INavbarProps {
   links: string[];
   className?: string;
+  children?: JSX.Element | JSX.Element[] | string;
 }
 
 const Navbar = (props: INavbarProps) => {
@@ -14,12 +15,12 @@ const Navbar = (props: INavbarProps) => {
   const anchorElms = links.map((link, index) => {
     return (
       <li className="nav-item" key={index}>
-        {link === "Home" && (
+        {link === 'Home' && (
           <Link className="nav-link" to="/">
             Home
           </Link>
         )}
-        {link !== "Home" && (
+        {link !== 'Home' && (
           <Link className="nav-link" to={`/${link.toLowerCase()}`}>
             {link}
           </Link>
@@ -50,6 +51,7 @@ const Navbar = (props: INavbarProps) => {
             <ul className="navbar-nav mr-auto">{anchorElms}</ul>
           </div>
         </div>
+        {props.children}
       </nav>
     </div>
   );
