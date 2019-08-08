@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import getLocalStorage from '../../helpers/getLocalStorage';
-import normalize from '../../helpers/normalize';
-import { Link } from 'react-router-dom';
-import Sprite from '../Pages/_pageElements/pokemonPageElements/Sprite';
-import BsButton, { EButtonColors } from '../bootstrapComponents/BsButton';
+import React, { useState, useEffect } from "react";
+import getLocalStorage from "../../helpers/getLocalStorage";
+import normalize from "../../helpers/normalize";
+import { Link } from "react-router-dom";
+import Sprite from "../Pages/_pageElements/pokemonPageElements/Sprite";
+import BsButton, { EButtonColors } from "../bootstrapComponents/BsButton";
 
 interface IFavoritePokemon {
   name: string;
@@ -23,10 +23,16 @@ const FavoritesPage = () => {
 
   const getFavPokemon = async () => {
     const lsContent = await getLocalStorage();
+    console.log("CONTENT: ", lsContent);
+
     const list: IFavoritePokemon[] = [];
-    lsContent.forEach(pokemon => {
+
+    for (const pokemon of lsContent) {
       list.push(pokemon !== null && JSON.parse(pokemon));
-    });
+    }
+    // lsContent.forEach(pokemon => {
+
+    // });
     console.log(list);
     setState({
       pokemonList: list,
@@ -58,7 +64,9 @@ const FavoritesPage = () => {
               <div className="card text-center">
                 <div className="card-body">
                   <h5>
-                    <Link to={`/pokemon/${pokemon.id}`}>{normalize(pokemon.name)}</Link>
+                    <Link to={`/pokemon/${pokemon.id}`}>
+                      {normalize(pokemon.name)}
+                    </Link>
                   </h5>
                   <Sprite id={pokemon.id} />
                   <BsButton
