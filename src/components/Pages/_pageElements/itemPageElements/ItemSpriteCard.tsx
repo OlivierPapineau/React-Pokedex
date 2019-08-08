@@ -1,5 +1,5 @@
 import React from 'react';
-import BsCard, { IBsCardProps } from '../bootstrapComponents/BsCard';
+import BsCard, { IBsCardProps } from '../../../bootstrapComponents/BsCard';
 import ItemSprite from './ItemSprite';
 
 interface IItemSpriteCardProps extends IBsCardProps {

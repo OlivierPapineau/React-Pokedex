@@ -1,8 +1,8 @@
 import React from 'react';
-import { IItemListObject } from '../../typings/PokemonTypes';
+import { IItemListObject } from '../../../../typings/PokemonTypes';
 import { Link } from 'react-router-dom';
-import getIdFromUrl from '../../helpers/getIdFormUrl';
-import normalize from '../../helpers/normalize';
+import getIdFromUrl from '../../../../helpers/getIdFormUrl';
+import normalize from '../../../../helpers/normalize';
 
 interface IItemsCardProps {
   held_items: IItemListObject[];

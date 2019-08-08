@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { IPokemonListItem } from "../typings/PokemonTypes";
-import fetchPokemon from "./pokemonPageElements/methods/fetchPokemon";
-import filterSearch from "./pokemonPageElements/methods/filterSearch";
-import PokemonList from "./PokemonList";
-import { IPokedex } from "./PokemonListPage";
-import BsCard from "./bootstrapComponents/BsCard";
-import Spinner from "./statusComponents/Spinner";
+import React, { useState, useEffect } from 'react';
+import { IPokemonListItem } from '../typings/PokemonTypes';
+import fetchPokemon from './Pages/_pageElements/pokemonPageElements/methods/fetchPokemon';
+import filterSearch from './Pages/_pageElements/pokemonPageElements/methods/filterSearch';
+import PokemonList from './PokemonList';
+import { IPokedex } from './Pages/PokemonListPage';
+import BsCard from './bootstrapComponents/BsCard';
+import Spinner from './statusComponents/Spinner';
 
 export interface IRelatedPokemonProps {
   pokemonName: string;
@@ -18,7 +18,7 @@ interface IRelatedPokemonState {
 }
 
 const initialState: IRelatedPokemonState = {
-  error: "",
+  error: '',
   loading: true,
   pokedex: {} as IPokedex,
 };
@@ -58,11 +58,7 @@ const RelatedPokemon = ({ pokemonName }: IRelatedPokemonProps) => {
 
   return (
     <BsCard cardTitle="Related Pokemon">
-      <PokemonList
-        displayType="LIST"
-        loading={state.loading}
-        pokemonList={state.pokedex.results}
-      />
+      <PokemonList displayType="LIST" loading={state.loading} pokemonList={state.pokedex.results} />
     </BsCard>
   );
 };

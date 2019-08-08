@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import getLocalStorage from "../helpers/getLocalStorage";
-import normalize from "../helpers/normalize";
-import { Link } from "react-router-dom";
-import Sprite from "./pokemonPageElements/Sprite";
-import BsButton, { EButtonColors } from "./bootstrapComponents/BsButton";
+import React, { useState, useEffect } from 'react';
+import getLocalStorage from '../../helpers/getLocalStorage';
+import normalize from '../../helpers/normalize';
+import { Link } from 'react-router-dom';
+import Sprite from '../Pages/_pageElements/pokemonPageElements/Sprite';
+import BsButton, { EButtonColors } from '../bootstrapComponents/BsButton';
 
 interface IFavoritePokemon {
   name: string;
@@ -58,9 +58,7 @@ const FavoritesPage = () => {
               <div className="card text-center">
                 <div className="card-body">
                   <h5>
-                    <Link to={`/pokemon/${pokemon.id}`}>
-                      {normalize(pokemon.name)}
-                    </Link>
+                    <Link to={`/pokemon/${pokemon.id}`}>{normalize(pokemon.name)}</Link>
                   </h5>
                   <Sprite id={pokemon.id} />
                   <BsButton

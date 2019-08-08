@@ -1,8 +1,8 @@
-import React from "react";
-import BsCard, { IBsCardProps } from "../bootstrapComponents/BsCard";
-import { IEffect } from "../../typings/ItemTypes";
-import BsList from "../bootstrapComponents/BsList";
-import BsListItem from "../bootstrapComponents/BsListItem";
+import React from 'react';
+import BsCard, { IBsCardProps } from '../../../bootstrapComponents/BsCard';
+import { IEffect } from '../../../../typings/ItemTypes';
+import BsList from '../../../bootstrapComponents/BsList';
+import BsListItem from '../../../bootstrapComponents/BsListItem';
 
 interface IItemDescCardProps extends IBsCardProps {
   effects: IEffect[];
@@ -20,11 +20,7 @@ const ItemDescCard = (props: IItemDescCardProps) => {
           <h6>Effects: </h6>
           <BsList listType="unordered">
             {effects.map((effectObj, index) => {
-              return (
-                <BsListItem key={`effect-${index}`}>
-                  {effectObj.effect}
-                </BsListItem>
-              );
+              return <BsListItem key={`effect-${index}`}>{effectObj.effect}</BsListItem>;
             })}
           </BsList>
         </div>

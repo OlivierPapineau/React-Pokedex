@@ -1,9 +1,9 @@
-import React from "react";
-import BsCard, { IBsCardProps } from "../bootstrapComponents/BsCard";
-import { IRegApiObject } from "../../typings/PokemonTypes";
-import BsList from "../bootstrapComponents/BsList";
-import BsListItem from "../bootstrapComponents/BsListItem";
-import normalize from "../../helpers/normalize";
+import React from 'react';
+import BsCard, { IBsCardProps } from '../../../bootstrapComponents/BsCard';
+import { IRegApiObject } from '../../../../typings/PokemonTypes';
+import BsList from '../../../bootstrapComponents/BsList';
+import BsListItem from '../../../bootstrapComponents/BsListItem';
+import normalize from '../../../../helpers/normalize';
 
 interface IItemSpecCardProps extends IBsCardProps {
   attributes: IRegApiObject[];
@@ -14,20 +14,13 @@ interface IItemSpecCardProps extends IBsCardProps {
 }
 
 const ItemSpecCard = (props: IItemSpecCardProps) => {
-  const {
-    attributes,
-    category,
-    cost,
-    flingEffect,
-    flingPower,
-    ...rest
-  } = props;
+  const { attributes, category, cost, flingEffect, flingPower, ...rest } = props;
   // Simplify from here
   const elmObj = {
     category: category.name,
     cost: cost,
-    flingEffect: flingEffect !== null ? flingEffect.name : "",
-    flingPower: flingPower !== null ? flingPower : "",
+    flingEffect: flingEffect !== null ? flingEffect.name : '',
+    flingPower: flingPower !== null ? flingPower : '',
   };
 
   // const cleanData = transformDataForComp(props);
@@ -38,7 +31,7 @@ const ItemSpecCard = (props: IItemSpecCardProps) => {
       elms.push(
         <div>
           <h5>{normalize(key)}</h5>
-          <p>{typeof value === "number" ? value : normalize(value)}</p>
+          <p>{typeof value === 'number' ? value : normalize(value)}</p>
         </div>,
       );
     }
@@ -48,7 +41,7 @@ const ItemSpecCard = (props: IItemSpecCardProps) => {
   return (
     <BsCard {...rest}>
       <div>
-        <h5>{attributes.length > 0 && "Attributes"}</h5>
+        <h5>{attributes.length > 0 && 'Attributes'}</h5>
         <BsList listType="unordered">
           {attributes.map((attObj, index) => {
             return <BsListItem>{normalize(attObj.name)}</BsListItem>;

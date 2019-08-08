@@ -1,21 +1,14 @@
-import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  RouteProps,
-  Redirect,
-  withRouter,
-} from "react-router-dom";
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import PokemonListPage from "./components/PokemonListPage";
-import About from "./components/About";
-import PokemonPage from "./components/PokemonPage";
-import ItemPage from "./components/ItemPage";
-import ItemListPage from "./components/ItemListPage";
-import FavoritesPage from "./components/FavoritesPage";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch, RouteProps, Redirect, withRouter } from 'react-router-dom';
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/Pages/Home';
+import PokemonListPage from './components/Pages/PokemonListPage';
+import About from './components/Pages/About';
+import PokemonPage from './components/Pages/PokemonPage';
+import ItemPage from './components/Pages/ItemPage';
+import ItemListPage from './components/Pages/ItemListPage';
+import FavoritesPage from './components/Pages/FavoritesPage';
 
 interface IPrivateRouteProps extends RouteProps {
   component: any;
@@ -37,9 +30,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div>
-        <Navbar
-          links={["Home", "Pokemon", "Items", "Favorites", "About", "Login"]}
-        >
+        <Navbar links={['Home', 'Pokemon', 'Items', 'Favorites', 'About', 'Login']}>
           <AuthButton />
         </Navbar>
         <Switch>
@@ -71,7 +62,7 @@ class Login extends React.Component<any, {}> {
   };
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer === true) return <Redirect to={from} />;
@@ -96,33 +87,33 @@ const PrivateRoute = (props: IPrivateRouteProps) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: '/login',
               state: { from: props.location },
             }}
           />
-        )
-      }
+        )}
     />
   );
 };
 
-const AuthButton = withRouter(({ history }) =>
-  authentication.isAuthenticated ? (
-    <p>
-      Welcome!
-      <button
-        onClick={() => {
-          authentication.signout(() => history.push("/"));
-        }}
-        type="button"
-        className="btn btn-danger"
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in</p>
-  ),
+const AuthButton = withRouter(
+  ({ history }) =>
+    authentication.isAuthenticated ? (
+      <p>
+        Welcome!
+        <button
+          onClick={() => {
+            authentication.signout(() => history.push('/'));
+          }}
+          type="button"
+          className="btn btn-danger"
+        >
+          Sign out
+        </button>
+      </p>
+    ) : (
+      <p>You are not logged in</p>
+    ),
 );
 
 export default App;

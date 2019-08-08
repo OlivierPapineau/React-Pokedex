@@ -1,9 +1,9 @@
 import React from 'react';
-import { IRegApiObject, IPokemonListItem } from '../../typings/PokemonTypes';
-import { IBsCardProps } from '../bootstrapComponents/BsCard';
-import BsCard from '../bootstrapComponents/BsCard';
-import PokemonList from '../PokemonList';
-import { IItemHolder } from '../../typings/ItemTypes';
+import { IRegApiObject, IPokemonListItem } from '../../../../typings/PokemonTypes';
+import { IBsCardProps } from '../../../bootstrapComponents/BsCard';
+import BsCard from '../../../bootstrapComponents/BsCard';
+import PokemonList from '../../../PokemonList';
+import { IItemHolder } from '../../../../typings/ItemTypes';
 
 interface IItemRelatedPokemonProps extends IBsCardProps {
   pageIsLoading: boolean;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { IPokemonGame } from '../../typings/PokemonTypes';
-import normalize from '../../helpers/normalize';
+import { IPokemonGame } from '../../../../typings/PokemonTypes';
+import normalize from '../../../../helpers/normalize';
 
 interface IGamesCardPorps {
   games: IPokemonGame[];

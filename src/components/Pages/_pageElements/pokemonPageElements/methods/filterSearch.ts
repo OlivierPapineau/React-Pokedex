@@ -1,4 +1,4 @@
-import { IPokemonListItem } from "../../../typings/PokemonTypes";
+import { IPokemonListItem } from '../../../../../typings/PokemonTypes';
 
 const filterSearch = (pokemonList: IPokemonListItem[], searchValue: string) => {
   const resObj = pokemonList.filter(pokemon => {
@@ -9,8 +9,8 @@ const filterSearch = (pokemonList: IPokemonListItem[], searchValue: string) => {
     }
     return true;
   });
-  console.log("resObj: ", resObj);
-  console.log("*************");
+  console.log('resObj: ', resObj);
+  console.log('*************');
 
   return resObj;
 };

@@ -1,12 +1,12 @@
-import { IRegApiObject } from "../typings/PokemonTypes";
-import { Link } from "react-router-dom";
-import BsList from "./bootstrapComponents/BsList";
-import BsListItem from "./bootstrapComponents/BsListItem";
-import fetchPokemon from "./pokemonPageElements/methods/fetchPokemon";
-import getIdFromUrl from "../helpers/getIdFormUrl";
-import normalize from "../helpers/normalize";
-import React, { Component } from "react";
-import Spinner from "./statusComponents/Spinner";
+import { IRegApiObject } from '../../typings/PokemonTypes';
+import { Link } from 'react-router-dom';
+import BsList from '../bootstrapComponents/BsList';
+import BsListItem from '../bootstrapComponents/BsListItem';
+import fetchPokemon from './_pageElements/pokemonPageElements/methods/fetchPokemon';
+import getIdFromUrl from '../../helpers/getIdFormUrl';
+import normalize from '../../helpers/normalize';
+import React, { Component } from 'react';
+import Spinner from '../statusComponents/Spinner';
 
 export interface IItemLibrary {
   count: number;
@@ -42,13 +42,13 @@ class ItemListPage extends Component<IItemListPageState, {}> {
   readonly state = initState();
 
   componentDidMount() {
-    console.log("item fetch");
+    console.log('item fetch');
     this.fetchData();
   }
 
   fetchData = async () => {
     const { limit, offset } = this.state;
-    const fetch = await fetchPokemon(limit, offset, "item");
+    const fetch = await fetchPokemon(limit, offset, 'item');
     this.setState({
       ...this.state,
       count: fetch.count,
@@ -71,9 +71,7 @@ class ItemListPage extends Component<IItemListPageState, {}> {
             const { name, url } = itemObj;
             return (
               <BsListItem key={itemObj.name}>
-                <Link to={`/items/${getIdFromUrl(url)}`}>
-                  {normalize(name)}
-                </Link>
+                <Link to={`/items/${getIdFromUrl(url)}`}>{normalize(name)}</Link>
               </BsListItem>
             );
           })}
