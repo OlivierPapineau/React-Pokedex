@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { IItem } from '../typings/ItemTypes';
-import normalize from '../helpers/normalize';
-import Spinner from './statusComponents/Spinner';
-import ItemRelatedPokemon from './itemPageElements/ItemRelatedPokemon';
-import ItemSpriteCard from './itemPageElements/ItemSpriteCard';
-import ItemDescCard from './itemPageElements/ItemDescCard';
-import ItemSpecCard from './itemPageElements/ItemSpecsCard';
-import { IRegApiObject } from '../typings/PokemonTypes';
+import React, { useState, useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { IItem } from "../typings/ItemTypes";
+import normalize from "../helpers/normalize";
+import Spinner from "./statusComponents/Spinner";
+import ItemRelatedPokemon from "./itemPageElements/ItemRelatedPokemon";
+import ItemSpriteCard from "./itemPageElements/ItemSpriteCard";
+import ItemDescCard from "./itemPageElements/ItemDescCard";
+import ItemSpecCard from "./itemPageElements/ItemSpecsCard";
+import { IRegApiObject } from "../typings/PokemonTypes";
+import { ECardColors } from "./bootstrapComponents/BsCard";
 
 interface IItemPageProps extends RouteComponentProps<{ id: string }> {}
 
@@ -20,7 +21,7 @@ interface IItemPageState {
 const initialState: IItemPageState = {
   item: {} as IItem,
   isLoading: true,
-  error: '',
+  error: "",
 };
 
 const ItemPage = (props: IItemPageProps) => {
@@ -66,15 +67,17 @@ const ItemPage = (props: IItemPageProps) => {
       <h2>{normalize(name)}</h2>
       <div className="row">
         <div className="col-sm-3">
-          <ItemSpriteCard cardTitle="Sprite" positionProp="mt-3" spriteUrl={sprites.default} whiteText={false} />
+          <ItemSpriteCard
+            cardTitle="Sprite"
+            color={ECardColors.LIGHT}
+            spriteUrl={sprites.default}
+          />
         </div>
         <div className="col-sm-9">
           <ItemDescCard
             cardTitle="Description"
             effects={effect_entries}
             itemDesc={flavor_text_entries[2].text}
-            positionProp="mt-3"
-            whiteText={false}
           />
         </div>
       </div>
@@ -83,9 +86,7 @@ const ItemPage = (props: IItemPageProps) => {
           <ItemRelatedPokemon
             cardTitle="Also held by"
             pageIsLoading={isLoading}
-            positionProp="mt-3"
             relatedList={held_by_pokemon}
-            whiteText={false}
           />
         </div>
         <div className="col-sm-6">
@@ -96,8 +97,6 @@ const ItemPage = (props: IItemPageProps) => {
             cost={cost}
             flingEffect={fling_effect}
             flingPower={fling_power}
-            positionProp="mt-3"
-            whiteText={false}
           />
         </div>
       </div>

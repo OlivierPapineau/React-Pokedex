@@ -1,7 +1,7 @@
-import React from 'react';
-import { IPokemon, IType } from '../../typings/PokemonTypes';
-import normalize from '../../helpers/normalize';
-import Sprite from './Sprite';
+import React from "react";
+import { IPokemon, IType } from "../../typings/PokemonTypes";
+import normalize from "../../helpers/normalize";
+import Sprite from "./Sprite";
 
 interface ISpriteCardProps {
   imagePath: string;
@@ -9,15 +9,16 @@ interface ISpriteCardProps {
 }
 
 const SpriteCard = (props: ISpriteCardProps) => {
-  const { imagePath, pokemonObject } = props;
+  const { pokemonObject } = props;
   const { id } = pokemonObject;
+  const stringTypes = ["id", "base_experience", "height", "weight"];
+
   let wantedInfo = [];
 
   for (const [key, value] of Object.entries(pokemonObject)) {
-    console.log(key);
-    if (key === 'types') {
+    if (key === "types") {
       let typeElm = (
-        <li className="list-group-item">
+        <li className="list-group-item" key={key}>
           <span className="mb-2">{`${normalize(key)}: `}</span>
           <ul className="list-group">
             {value.map((typeObj: IType) => {
@@ -32,8 +33,12 @@ const SpriteCard = (props: ISpriteCardProps) => {
       );
       wantedInfo.push(typeElm);
     }
-    if (key === 'id' || key === 'base_experience' || key === 'height' || key === 'weight') {
-      wantedInfo.push(<li key={key} className="list-group-item">{`${normalize(key)}: ${value}`}</li>);
+    if (stringTypes.indexOf(key) !== -1) {
+      wantedInfo.push(
+        <li key={key} className="list-group-item">{`${normalize(
+          key,
+        )}: ${value}`}</li>,
+      );
     }
   }
 

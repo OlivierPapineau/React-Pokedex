@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { IPokemonListItem } from '../typings/PokemonTypes';
-import fetchPokemon from './pokemonPageElements/methods/fetchPokemon';
-import filterSearch from './pokemonPageElements/methods/filterSearch';
-import PokemonList from './PokemonList';
-import { IPokedex } from './PokemonListPage';
-import BsCard from './bootstrapComponents/BsCard';
-import Spinner from './statusComponents/Spinner';
+import React, { useState, useEffect } from "react";
+import { IPokemonListItem } from "../typings/PokemonTypes";
+import fetchPokemon from "./pokemonPageElements/methods/fetchPokemon";
+import filterSearch from "./pokemonPageElements/methods/filterSearch";
+import PokemonList from "./PokemonList";
+import { IPokedex } from "./PokemonListPage";
+import BsCard from "./bootstrapComponents/BsCard";
+import Spinner from "./statusComponents/Spinner";
 
 export interface IRelatedPokemonProps {
   pokemonName: string;
@@ -18,9 +18,9 @@ interface IRelatedPokemonState {
 }
 
 const initialState: IRelatedPokemonState = {
-  pokedex: {} as IPokedex,
-  error: '',
+  error: "",
   loading: true,
+  pokedex: {} as IPokedex,
 };
 
 const RelatedPokemon = ({ pokemonName }: IRelatedPokemonProps) => {
@@ -57,8 +57,12 @@ const RelatedPokemon = ({ pokemonName }: IRelatedPokemonProps) => {
   if (state.loading) return <Spinner />;
 
   return (
-    <BsCard whiteText={false} cardTitle="Related Pokemon">
-      <PokemonList loading={state.loading} pokemonList={state.pokedex.results} displayType="LIST" />
+    <BsCard cardTitle="Related Pokemon">
+      <PokemonList
+        displayType="LIST"
+        loading={state.loading}
+        pokemonList={state.pokedex.results}
+      />
     </BsCard>
   );
 };

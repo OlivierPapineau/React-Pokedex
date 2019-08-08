@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import { IPokemonListItem } from '../typings/PokemonTypes';
-import { IPokedex } from '../components/PokemonListPage';
+import { IPokedex } from "../components/PokemonListPage";
 
-const fetchPokemon = (limit: number, offset: number, mode: 'regular' | 'search', searchedPokemon: string = '') => {
-  const baseApiLink = 'http://pokeapi.co/api/v2/pokemon/?';
-  const linkTail = mode === 'regular' ? `limit=${limit}&offset=${offset}` : mode === 'search' && `limit=964&offset=0`;
+const fetchPokemon = (
+  limit: number,
+  offset: number,
+  mode: "regular" | "search",
+  searchedPokemon: string = "",
+) => {
+  const baseApiLink = "http://pokeapi.co/api/v2/pokemon/?";
+  const linkTail =
+    mode === "regular"
+      ? `limit=${limit}&offset=${offset}`
+      : mode === "search" && `limit=964&offset=0`;
   const fullCall = `${baseApiLink}${linkTail}`;
   let resObj = {};
 
   fetch(fullCall)
     .then(response => response.json())
     .then((response: IPokedex) => {
-      if (mode === 'regular') {
+      if (mode === "regular") {
       }
     });
 };

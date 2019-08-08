@@ -1,15 +1,20 @@
-import React from 'react';
+import React from "react";
 
 interface IBsListItemProps {
   children: JSX.Element | JSX.Element[] | string;
-  style?: string;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const BsListItem = (props: IBsListItemProps) => {
-  const { style = '' } = props;
-  const clName = `${style} list-group-item`;
+  const { className = "", style = {} } = props;
+  const clsName = `${className} list-group-item`;
 
-  return <li className={clName}>{props.children}</li>;
+  return (
+    <li className={clsName} style={style}>
+      {props.children}
+    </li>
+  );
 };
 
 export default BsListItem;

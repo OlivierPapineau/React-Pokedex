@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface IQuickSearchProps {
   className?: string;
@@ -13,13 +13,13 @@ const QuickSearch = (props: IQuickSearchProps) => {
   return (
     <div>
       <input
-        className={clName}
-        type="text"
-        placeholder="Search on page"
         aria-label="Search on page"
-        value={value}
-        onChange={onChange}
+        className={clName}
         name="quickSearch"
+        onChange={onChange}
+        placeholder="Search on page"
+        type="text"
+        value={value}
       />
     </div>
   );

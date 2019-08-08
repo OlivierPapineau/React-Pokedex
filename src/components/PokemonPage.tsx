@@ -61,7 +61,7 @@ const PokemonPage = (props: IPokemonPageProps) => {
 
   return (
     <div className="container mt-5">
-      <h1>{state.pokemon.name && normalize(state.pokemon.name)} </h1>
+      <h1>{state.pokemon.name && normalize(state.pokemon.name)}</h1>
       <div className="row">
         <div className="col-md-4">
           <SpriteCard

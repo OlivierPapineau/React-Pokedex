@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface IItemSpriteProps {
   url: string;
@@ -11,7 +11,7 @@ const ItemSprite = (props: IItemSpriteProps) => {
 
   return (
     <div className={clName}>
-      <img src={url} />
+      <img src={url} alt="pokemon" />
     </div>
   );
 };

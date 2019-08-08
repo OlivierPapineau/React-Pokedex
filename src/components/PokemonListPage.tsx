@@ -6,18 +6,18 @@
   4. Typing timeout on fiter and search to avoid too many requests / state chagnes
  */
 
-import React from 'react';
+import React from "react";
 // import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { IPokemonListItem } from '../typings/PokemonTypes';
-import PokemonList from './PokemonList';
-import Pagination from './Pagination';
-import Searchbar from './Searchbar';
-import Spinner from './statusComponents/Spinner';
-import fetchPokemon from './pokemonPageElements/methods/fetchPokemon';
-import filterSearch from './pokemonPageElements/methods/filterSearch';
-import PageSizeChanger from './PageSizeChanger';
-import QuickSearch from './QuickSearch';
+import { useState, useEffect } from "react";
+import { IPokemonListItem } from "../typings/PokemonTypes";
+import PokemonList from "./PokemonList";
+import Pagination from "./Pagination";
+import Searchbar from "./Searchbar";
+import Spinner from "./statusComponents/Spinner";
+import fetchPokemon from "./pokemonPageElements/methods/fetchPokemon";
+import filterSearch from "./pokemonPageElements/methods/filterSearch";
+import PageSizeChanger from "./PageSizeChanger";
+import QuickSearch from "./QuickSearch";
 
 export interface IPokedex {
   count: number;
@@ -46,13 +46,22 @@ const initalState = {
   loading: true,
   offset: 0,
   pokedex: {} as IPokedex,
-  searchBar: '',
+  searchBar: "",
   values: {} as { [key: string]: string },
 };
 
 const PokemonListPage = () => {
   const [state, setState] = useState(initalState);
-  const { count, error, filteredIds, limit, loading, offset, pokedex, values } = state;
+  const {
+    count,
+    error,
+    filteredIds,
+    limit,
+    loading,
+    offset,
+    pokedex,
+    values,
+  } = state;
 
   const fetchData = async () => {
     setState({ ...state, loading: true });
@@ -67,13 +76,10 @@ const PokemonListPage = () => {
     });
   };
 
-  useEffect(
-    () => {
-      console.log('fetch call');
-      fetchData();
-    },
-    [limit, offset],
-  );
+  useEffect(() => {
+    console.log("fetch call");
+    fetchData();
+  }, [limit, offset]);
 
   //Change page
   const paginate = (pageNumber: number) => {
@@ -118,16 +124,22 @@ const PokemonListPage = () => {
     const inputName = e.currentTarget.name;
     const inputValue = e.currentTarget.value;
     const { pokedex } = state;
+    console.log("inputValue: ", inputValue);
+
+    const newFilteredIds = [];
+
     setState({
       ...state,
       values: {
         ...values,
         [inputName]: inputValue,
       },
-      pokedex: {
-        ...pokedex,
-        results: filterSearch(pokedex.results, inputValue),
-      },
+      // filteredIds: newFilteredIds,
+      pokedex,
+      // pokedex: {
+      //   ...pokedex,
+      //   results: filterSearch(pokedex.results, inputValue),
+      // },
     });
   };
 
@@ -147,21 +159,41 @@ const PokemonListPage = () => {
     <div className="container mt-5">
       <div className="row">
         <h2 className="text-primary mb-3 col-sm-2">Pokemon</h2>
-        <Pagination className="mb-3 col-sm-10" elementsPerPage={limit} paginate={paginate} totalElements={count} />
+        <Pagination
+          className="mb-3 col-sm-10"
+          elementsPerPage={limit}
+          paginate={paginate}
+          totalElements={count}
+        />
       </div>
       <div className="row">
         <div className="col-sm-4">
-          <Searchbar onChange={handleInputChange} onClick={handleSearch} value={values.searchBar} />
+          <Searchbar
+            onChange={handleInputChange}
+            onClick={handleSearch}
+            value={values.searchBar}
+          />
         </div>
         <div className="col-sm-3">
-          <QuickSearch onChange={handlePageSearch} value={values.quickSearch} />
+          <QuickSearch
+            onChange={handlePageSearch}
+            value={values.quickSearch || ""}
+          />
         </div>
         <div className="col-sm-5">
-          <PageSizeChanger onChange={handleInputChange} onClick={handleSizeChange} value={values.pageSize} />
+          <PageSizeChanger
+            onChange={handleInputChange}
+            onClick={handleSizeChange}
+            value={values.pageSize}
+          />
         </div>
       </div>
       <div>
-        <PokemonList filteredIds={filteredIds} loading={loading} pokemonList={pokedex.results || []} />
+        <PokemonList
+          filteredIds={filteredIds}
+          loading={loading}
+          pokemonList={pokedex.results || []}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import getLocalStorage from '../helpers/getLocalStorage';
-import normalize from '../helpers/normalize';
-import { Link } from 'react-router-dom';
-import Sprite from './pokemonPageElements/Sprite';
-import BsButton, { EButtonColors } from './bootstrapComponents/BsButton';
+import React, { useState, useEffect } from "react";
+import getLocalStorage from "../helpers/getLocalStorage";
+import normalize from "../helpers/normalize";
+import { Link } from "react-router-dom";
+import Sprite from "./pokemonPageElements/Sprite";
+import BsButton, { EButtonColors } from "./bootstrapComponents/BsButton";
 
 interface IFavoritePokemon {
   name: string;
@@ -33,15 +33,12 @@ const FavoritesPage = () => {
     });
   };
 
-  useEffect(
-    () => {
-      getFavPokemon();
-    },
-    [localStorage],
-  );
+  useEffect(() => {
+    getFavPokemon();
+  }, []);
 
   const removePokemon = (pokemonId: string) => {
-    localStorage.removeItem(`pokemon${pokemonId}`);
+    window.localStorage.removeItem(`pokemon${pokemonId}`);
     let newState = { ...state };
     newState.pokemonList.forEach((pokemon, index) => {
       if (pokemon.id === pokemonId) {
@@ -57,22 +54,25 @@ const FavoritesPage = () => {
       <div className="row">
         {state.pokemonList.map(pokemon => {
           return (
-            <div className="col-sm-3 mb-2">
+            <div className="col-sm-3 mb-2" key={pokemon.name}>
               <div className="card text-center">
                 <div className="card-body">
                   <h5>
-                    <Link to={`/pokemon/${pokemon.id}`}>{normalize(pokemon.name)}</Link>
+                    <Link to={`/pokemon/${pokemon.id}`}>
+                      {normalize(pokemon.name)}
+                    </Link>
                   </h5>
                   <Sprite id={pokemon.id} />
-                  <div
+                  <BsButton
+                    color={EButtonColors.DANGER}
                     onClick={() => {
                       removePokemon(pokemon.id);
                     }}
+                    outline={true}
+                    type="button"
                   >
-                    <BsButton type="button" outline={true} color={EButtonColors.DANGER}>
-                      Delete
-                    </BsButton>
-                  </div>
+                    Delete
+                  </BsButton>
                 </div>
               </div>
             </div>
